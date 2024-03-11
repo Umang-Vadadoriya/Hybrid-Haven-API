@@ -6,6 +6,8 @@ on:
     paths:
       - 'Terraform/*'
   pull_request:
+    types:
+      - opened
     paths:
       - 'Terraform/*'
 permissions:
