@@ -1,0 +1,102 @@
+name: Build, Test, Deploy, and Run on EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Build
+        run: mvn clean package
+
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Hybrid-Haven-API-0.0.1-SNAPSHOT.jar
+          path: target/Hybrid-Haven-API-0.0.1-SNAPSHOT.jar
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Run Tests
+        run: mvn test
+
+  deploy_and_run:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Hybrid-Haven-API-0.0.1-SNAPSHOT.jar
+          path: target
+
+      - name: Remove previous JAR on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          script: |
+            PID=$(sudo lsof -t -i:8085)
+            if [ ! -z "$PID" ]; then
+              sudo kill -9 $PID
+            fi
+            rm -f /home/ec2-user/Hybrid-Haven-API-0.0.1-SNAPSHOT.jar.jar
+
+      - name: Copy JAR to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          source: 'target/Hybrid-Haven-API-0.0.1-SNAPSHOT.jar'
+          target: '/home/ec2-user/'
+
+      - name: Run Spring Boot on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          script: |
+            cd /home/ec2-user/target
+            nohup java -jar Hybrid-Haven-API-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
