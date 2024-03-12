@@ -68,10 +68,18 @@ jobs:
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
           script_stop: true
           script: |
+            # Find the PID of the process running on port 8080
             PID=$(sudo lsof -t -i:8080)
-            if [ ! -z "$PID" ]; then
+            
+            # Check if a process is running on port 8080
+            if [ ! -z "$PID" ]; then        
+              # If a process is found, kill it
               sudo kill -9 $PID
+              echo "Process running on port 8080 has been terminated."
+            else
+              echo "No process found running on port 8080."
             fi
+            
             rm -f /home/ec2-user/Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar
 
       - name: Copy JAR to EC2
