@@ -14,6 +14,11 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    @GetMapping("/")
+    public String test(){
+        return "Welcome To Hybrid Haven"
+    }
+
     @GetMapping("employees")
     public Iterable<Employee> getAllEmployees(){
 
