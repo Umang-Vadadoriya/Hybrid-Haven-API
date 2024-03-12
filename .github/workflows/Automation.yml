@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Hybrid-Haven-API-${{Version}}-SNAPSHOT.jar
-          path: target/Hybrid-Haven-API-${{Version}}-SNAPSHOT.jar
+          path: target/Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar
 
       - name: Run Tests
         id: test
