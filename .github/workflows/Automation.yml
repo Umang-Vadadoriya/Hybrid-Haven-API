@@ -10,13 +10,13 @@ on:
     paths:
       - 'src/**'
 env:
-  Version: 0.0.3
+  Version: 0.0.4
   DB_URL: ${{secrets.DB_URL}}
   DB_USERNAME : ${{secrets.DB_USERNAME}}
   DB_PASSWORD : ${{secrets.DB_PASSWORD}}
 
 jobs:
-  build-and-test:
+  Build-And-Test:
     runs-on: ubuntu-latest
 
     steps:
@@ -47,7 +47,7 @@ jobs:
         id: test
         run: mvn test
 
-  deploy_and_run:
+  Deploy-And-Run:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: build-and-test
     runs-on: ubuntu-latest
@@ -66,6 +66,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          script_stop: true
           script: |
             PID=$(sudo lsof -t -i:8085)
             if [ ! -z "$PID" ]; then
@@ -80,6 +81,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          script_stop: true
           source: 'target/Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar'
           target: '/home/ec2-user/'
 
@@ -90,6 +92,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          script_stop: true
           envs: DB_URL,DB_USERNAME,DB_PASSWORD
           script: |
             cd /home/ec2-user/target
