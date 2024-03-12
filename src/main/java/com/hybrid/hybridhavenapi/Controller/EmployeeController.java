@@ -3,6 +3,8 @@ package com.hybrid.hybridhavenapi.Controller;
 import com.hybrid.hybridhavenapi.Entity.Employee;
 import com.hybrid.hybridhavenapi.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +17,13 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping("employees")
-    public Iterable<Employee> getAllEmployees(){
-
-        return employeeService.getAllEmployees();
+    public ResponseEntity<?> getAllEmployees(){
+        try {
+            Iterable<Employee> employees = employeeService.getAllEmployees();
+            return ResponseEntity.ok(employees);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving employees");
+        }
     }
 
     @GetMapping("employees/id/{employeeId}")

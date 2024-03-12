@@ -58,6 +58,24 @@ public class EmployeeService {
         } catch (Exception ex) {
             return false;
         }
-
     }
+
+//    public void insert_User(Employee employee) {
+//        System.out.println("___________" + employee);
+//        employeeRepository.insert_Employee(
+//                employee.getEmployeeName(),
+//                employee.getEm
+//        );
+//
+//        insertUserRepository.insert_User(
+//                user.getFirst_name(),
+//                user.getLast_name(),
+//                user.getUsername(),
+//                user.getImage_url(),
+//                user.getEmail_address(),
+//                user.getProfile_description(),
+//                user.is_active()
+//
+//        );
+//    }
 }

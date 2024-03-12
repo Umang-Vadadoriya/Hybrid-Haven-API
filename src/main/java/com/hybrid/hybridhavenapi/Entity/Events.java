@@ -1,10 +1,19 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+@Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Events {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
