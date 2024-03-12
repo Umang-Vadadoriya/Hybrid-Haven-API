@@ -10,6 +10,7 @@ public class HybridHavenApiApplication {
 		SpringApplication.run(HybridHavenApiApplication.class, args);
 		System.out.println("\n ==> Ready To Tackle The Requests...");
 
+
 	}
 
 }
