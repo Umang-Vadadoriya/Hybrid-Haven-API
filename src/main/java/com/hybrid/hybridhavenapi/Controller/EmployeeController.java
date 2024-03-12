@@ -18,7 +18,7 @@ public class EmployeeController {
 
     @GetMapping("/")
     public String test(){
-        return "Welcome To Hybrid Haven API";
+        return "Welcome To Hybrid Haven API Version 2";
     }
 
     @GetMapping("employees")
