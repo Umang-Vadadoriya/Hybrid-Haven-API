@@ -18,6 +18,7 @@ public class EventsController {
 
     @GetMapping("events")
     public List<Events> getAllEvents(){
+
         return eventsService.getAllEvents();
     }
 

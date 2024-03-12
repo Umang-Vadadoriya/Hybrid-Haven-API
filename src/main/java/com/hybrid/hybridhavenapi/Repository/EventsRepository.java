@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface EventsRepository extends JpaRepository<Events,Integer> {
 
     Optional<Events> findByEventName(String name);
+
+    @Override
+    Optional<Events> findById(Integer integer);
 }
