@@ -67,6 +67,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
           script_stop: true
+          debug: true
           script: |
             # Find the PID of the process running on port 8080
             PID=$(sudo lsof -t -i:8080)
