@@ -7,6 +7,7 @@ on:
     paths:
       - 'src/*'
   pull_request:
+    types: [opened]
     paths:
       - 'src/*'
 
