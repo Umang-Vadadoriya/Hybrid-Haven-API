@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-//import org.springframework.data.repository.CrudRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     public List<Employee> findByEmployeeName(String employeeName);
