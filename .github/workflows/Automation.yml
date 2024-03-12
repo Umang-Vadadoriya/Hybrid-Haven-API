@@ -8,9 +8,7 @@ on:
       - 'src/*'
   pull_request:
     types: [opened]
-    paths:
-      - 'src/*'
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
