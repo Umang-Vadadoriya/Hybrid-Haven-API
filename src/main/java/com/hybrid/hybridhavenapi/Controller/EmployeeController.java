@@ -16,7 +16,7 @@ public class EmployeeController {
 
     @GetMapping("/")
     public String test(){
-        return "Welcome To Hybrid Haven"
+        return "Welcome To Hybrid Haven";
     }
 
     @GetMapping("employees")
