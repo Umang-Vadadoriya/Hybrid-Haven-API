@@ -66,7 +66,6 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          script_stop: true
           script: |
             PID=$(sudo lsof -t -i:8085)
             if [ ! -z "$PID" ]; then
