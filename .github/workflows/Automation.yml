@@ -90,6 +90,6 @@ jobs:
           script: |
             cd /home/ec2-user/target
             export DB_URL=${{env.DB_URL}}
-            export DB_USERNAME=env.DB;encrypt}}
+            export DB_USERNAME=${{env.DB}}
             export DB_PASSWORD=${{env.DB_USERNAME}}
             nohup java -jar Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar > output.log 2>&1 &
