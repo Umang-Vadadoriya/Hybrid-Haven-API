@@ -32,7 +32,7 @@ resource "aws_security_group" "ec2_SG" {
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key-ec2"
-  public_key = file("deployer-key-ec2")
+  public_key = file("deployer-key-ec2.pem.pub")
 
   tags = local.tags
 }
