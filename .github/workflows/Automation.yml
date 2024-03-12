@@ -87,7 +87,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          all_envs: true
+          allenvs: true
           script: |
             cd /home/ec2-user/target
             nohup java -jar Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar > output.log 2>&1 &
