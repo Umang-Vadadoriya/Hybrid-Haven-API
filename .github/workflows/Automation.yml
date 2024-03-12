@@ -72,10 +72,9 @@ jobs:
             PID=$(sudo lsof -t -i:8080)
             
             # Check if a process is running on port 8080
-            if [ ! -z "$PID" ]; then
-            
-            # If a process is found, kill it
-            sudo kill -9 $PID
+            if [ ! -z "$PID" ]; then        
+              # If a process is found, kill it
+              sudo kill -9 $PID
               echo "Process running on port 8080 has been terminated."
             else
               echo "No process found running on port 8080."
