@@ -11,6 +11,9 @@ on:
       - 'src/**'
 env:
   Version: 0.0.3
+  DB_URL: ${{secrets.DB_URL}}
+  DB_USERNAME : ${{secrets.DB_USERNAME}}
+  DB_PASSWORD : ${{secrets.DB_PASSWORD}}
 
 jobs:
   build-and-test:
@@ -87,7 +90,10 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          allenvs: true
+          envs: DB_URL,DB_USERNAME,DB_PASSWORD
           script: |
             cd /home/ec2-user/target
+            export DB_URL=$DB_URL
+            export DB_USERNAME=$DB
+            export DB_PASSWORD=$DB_USERNAME
             nohup java -jar Hybrid-Haven-API-${{env.Version}}-SNAPSHOT.jar > output.log 2>&1 &
