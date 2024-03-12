@@ -69,5 +69,4 @@ terraform.rc
 
 ### VS Code ###
 .vscode/
-/Terraform/deployer-key-ec2.ppk
 /Terraform/deployer-key-ec2.pem
