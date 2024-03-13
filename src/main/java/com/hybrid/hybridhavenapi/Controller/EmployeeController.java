@@ -5,10 +5,15 @@ import com.hybrid.hybridhavenapi.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class EmployeeController {
@@ -50,6 +55,13 @@ public class EmployeeController {
     public  Boolean addEmployee(@RequestBody Employee employee)
     {
         return employeeService.addEmployee(employee);
+    }
+
+    @GetMapping("secured")
+    public String addAuthEmployee(Authentication authentication) {
+        System.out.println("controller called");
+        return employeeService.addAuthEmployee(authentication);
+//        return "secured";
     }
 
     @PutMapping("employees")

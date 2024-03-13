@@ -1,18 +1,29 @@
 package com.hybrid.hybridhavenapi.Service;
 
 import com.hybrid.hybridhavenapi.Entity.Employee;
+import com.hybrid.hybridhavenapi.Entity.EmployeeContact;
+import com.hybrid.hybridhavenapi.Repository.EmployeeContactRepository;
 import com.hybrid.hybridhavenapi.Repository.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
+import java.util.stream.Collectors;
+@Slf4j
 @Service
 public class EmployeeService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    EmployeeContactRepository employeeContactRepository;
 
     public Iterable<Employee> getAllEmployees() {
         return employeeRepository.findAll();
@@ -60,22 +71,50 @@ public class EmployeeService {
         }
     }
 
-//    public void insert_User(Employee employee) {
-//        System.out.println("___________" + employee);
-//        employeeRepository.insert_Employee(
-//                employee.getEmployeeName(),
-//                employee.getEm
-//        );
-//
-//        insertUserRepository.insert_User(
-//                user.getFirst_name(),
-//                user.getLast_name(),
-//                user.getUsername(),
-//                user.getImage_url(),
-//                user.getEmail_address(),
-//                user.getProfile_description(),
-//                user.is_active()
-//
-//        );
-//    }
+    public String addAuthEmployee(Authentication authentication)
+    {
+
+        log.info("service called");
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof DefaultOidcUser) {
+            DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+            String username = oidcUser.getName();
+            String email = oidcUser.getEmail();
+            String fullName = oidcUser.getFullName();
+
+            EmployeeContact validateEmail = employeeContactRepository.findByEmployeeEmail(email);
+
+            if(validateEmail==null)
+            {
+                Employee validateEmployee = employeeRepository.findTopByEmployeeName(fullName);
+                if(validateEmployee==null)
+                {
+                    Employee employee = new Employee();
+                    employee.setEmployeeName(fullName);
+                    employee.setEmployeeReportsTo(0);
+
+                    Employee savedEmp =  employeeRepository.save(employee);
+
+                    EmployeeContact employeeContact = new EmployeeContact();
+                    employeeContact.setEmployeeContact("");
+                    employeeContact.setEmployeeEmail(email);
+                    employeeContact.setEmployeeId(savedEmp.getEmployeeId());
+
+                    EmployeeContact savedContact = employeeContactRepository.save(employeeContact);
+
+                    if(savedContact!=null && savedEmp!=null)
+                    {
+                        log.info("data Inserted");
+                    }
+                    else {
+                        log.info("data Not Inserted");
+                    }
+                }
+            }
+
+            System.out.println(oidcUser);
+        }
+        return "hello, secured";
+    }
+
 }

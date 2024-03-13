@@ -23,7 +23,7 @@ public class Employee {
 //    @OneToMany(mappedBy = "employeeId")
 //    private Collection<DeskBooking> deskBookingsByEmployeeId;
 
-    public int getEmployeeId(int i) {
+    public int getEmployeeId() {
         return employeeId;
     }
 
