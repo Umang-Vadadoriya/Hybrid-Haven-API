@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -17,7 +18,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Arrays;
 import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,14 +34,15 @@ public class EmployeeControllerTests {
     @MockBean
     private EmployeeService employeeService;
 
-
+    String token = "ya29.a0Ad52N38xe3cEuKtpa9uoTceuiv9nNxVUlx6f19g913T2MaVfKXcrDmZIDFtTfmJaZZXH4v_AgmUIE4obL4wCrCK8dtVNeaMXlsJdmWT1YjxviZExRajOuL4qZcgKA1rJaAZI3vihERSyFv1bDPmkoGn2L7rACysozJxWPwaCgYKARoSARISFQHGX2Mis04pw7Fbs_BIeQFZ_fRy3A0173";
     @Test
     public void getAllEmployeeTest_Exception() throws Exception{
 
         Mockito.when(employeeService.getAllEmployees()).thenThrow(new RuntimeException("Error retrieving employees"));
 
         // Perform GET request to fetch all employees and expect an internal server error
-        mockMvc.perform(get("/employees"))
+        mockMvc.perform(get("/employees")
+                        .header("Authorization", "Bearer "+token))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().string("Error retrieving employees"));
 
@@ -64,12 +67,13 @@ public class EmployeeControllerTests {
         Mockito.when(employeeService.getAllEmployees()).thenReturn(employees);
 
         // Perform GET request to fetch all employees
-        MvcResult result =  mockMvc.perform(get("/employees"))
+
+        MvcResult result =  mockMvc.perform(get("/employees")
+                .header("Authorization", "Bearer "+token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
                 .andReturn();
-
 
         log.info(result.getResponse().getContentAsString());
 
@@ -91,7 +95,8 @@ public class EmployeeControllerTests {
         Mockito.when(employeeService.getEmployeeByName("Nisha Jain")).thenReturn(employees);
 
         // Perform GET request to fetch employees by name
-        MvcResult result = mockMvc.perform(get("/employees/name/Nisha Jain"))
+        MvcResult result = mockMvc.perform(get("/employees/name/Nisha Jain")
+                .header("Authorization", "Bearer"+token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
