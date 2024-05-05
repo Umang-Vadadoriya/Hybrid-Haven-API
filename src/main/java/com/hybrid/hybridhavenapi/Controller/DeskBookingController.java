@@ -3,10 +3,12 @@ package com.hybrid.hybridhavenapi.Controller;
 import com.hybrid.hybridhavenapi.Entity.DeskBooking;
 import com.hybrid.hybridhavenapi.Service.DeskBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -41,5 +43,15 @@ public class DeskBookingController {
     public ResponseEntity<Void> deleteDeskBooking(@PathVariable Integer id) {
         deskBookingService.deleteDeskBooking(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<DeskBooking>> getDeskBookingByDate(@PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy") Date date) {
+        List<DeskBooking> deskBookingList = deskBookingService.getDeskBookingByDate(date);
+        if (deskBookingList != null) {
+            return new ResponseEntity<>(deskBookingList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

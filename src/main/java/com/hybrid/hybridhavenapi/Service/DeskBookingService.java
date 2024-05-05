@@ -5,6 +5,7 @@ import com.hybrid.hybridhavenapi.Repository.DeskBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,5 +30,10 @@ public class DeskBookingService {
     public void deleteDeskBooking(Integer deskBookingId) {
         deskBookingRepository.deleteById(deskBookingId);
     }
+
+    public List<DeskBooking> getDeskBookingByDate(Date date) {
+        return deskBookingRepository.findByDeskBookingDate(date);
+    }
+
 
 }

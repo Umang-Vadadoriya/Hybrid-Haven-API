@@ -3,10 +3,12 @@ package com.hybrid.hybridhavenapi.Controller;
 import com.hybrid.hybridhavenapi.Entity.Vacation;
 import com.hybrid.hybridhavenapi.Service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -49,6 +51,11 @@ public class VacationController {
     public ResponseEntity<Void> deleteVacation(@PathVariable Integer id) {
         vacationService.deleteVacation(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/date/{date}")
+    public List<Vacation> getVacationsByDate(@PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy") Date date) {
+        return vacationService.getVacationsByDate(date);
     }
 
 }
