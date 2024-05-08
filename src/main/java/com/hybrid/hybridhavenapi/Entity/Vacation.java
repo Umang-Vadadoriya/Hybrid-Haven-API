@@ -1,9 +1,13 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 
+@Getter
+@Setter
 @Entity
 public class Vacation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,44 +26,4 @@ public class Vacation {
     @ManyToOne
     @JoinColumn(name = "EmployeeId", referencedColumnName = "EmployeeId", nullable = false, updatable = false, insertable = false)
     private Employee employeeByEmployeeId;
-
-    public Integer getVacationId() {
-        return vacationId;
-    }
-
-    public void setVacationId(Integer vacationId) {
-        this.vacationId = vacationId;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Date getVacationStartDate() {
-        return vacationStartDate;
-    }
-
-    public void setVacationStartDate(Date vacationStartDate) {
-        this.vacationStartDate = vacationStartDate;
-    }
-
-    public Date getVacationEndDate() {
-        return vacationEndDate;
-    }
-
-    public void setVacationEndDate(Date vacationEndDate) {
-        this.vacationEndDate = vacationEndDate;
-    }
-
-    public Employee getEmployeeByEmployeeId() {
-        return employeeByEmployeeId;
-    }
-
-    public void setEmployeeByEmployeeId(Employee employeeByEmployeeId) {
-        this.employeeByEmployeeId = employeeByEmployeeId;
-    }
 }
