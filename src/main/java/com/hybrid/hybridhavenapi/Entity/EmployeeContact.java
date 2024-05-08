@@ -1,7 +1,9 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class EmployeeContact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,38 +23,6 @@ public class EmployeeContact {
 //    @ManyToOne
 //    @JoinColumn(name = "EmployeeId", referencedColumnName = "EmployeeId", nullable = false, insertable = false, updatable = false)
 //    private Employee employeeByEmployeeId;
-
-    public Integer getEmployeeContactId() {
-        return employeeContactId;
-    }
-
-    public void setEmployeeContactId(Integer employeeContactId) {
-        this.employeeContactId = employeeContactId;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getEmployeeEmail() {
-        return employeeEmail;
-    }
-
-    public void setEmployeeEmail(String employeeEmail) {
-        this.employeeEmail = employeeEmail;
-    }
-
-    public String getEmployeeContact() {
-        return employeeContact;
-    }
-
-    public void setEmployeeContact(String employeeContact) {
-        this.employeeContact = employeeContact;
-    }
 
 //    public Employee getEmployeeByEmployeeId() {
 //        return employeeByEmployeeId;

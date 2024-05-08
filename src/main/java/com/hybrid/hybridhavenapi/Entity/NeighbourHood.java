@@ -1,9 +1,11 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Collection;
 
+@Data
 @Entity
 public class NeighbourHood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,36 +20,4 @@ public class NeighbourHood {
     private Integer neighbourNumberOfDesk;
     @OneToMany(mappedBy = "neighbourId")
     private Collection<DeskBooking> deskBookingsByNeighbourId;
-
-    public Integer getNeighbourId() {
-        return neighbourId;
-    }
-
-    public void setNeighbourId(Integer neighbourId) {
-        this.neighbourId = neighbourId;
-    }
-
-    public String getNeighbourName() {
-        return neighbourName;
-    }
-
-    public void setNeighbourName(String neighbourName) {
-        this.neighbourName = neighbourName;
-    }
-
-    public Integer getNeighbourNumberOfDesk() {
-        return neighbourNumberOfDesk;
-    }
-
-    public void setNeighbourNumberOfDesk(Integer neighbourNumberOfDesk) {
-        this.neighbourNumberOfDesk = neighbourNumberOfDesk;
-    }
-
-    public Collection<DeskBooking> getDeskBookingsByNeighbourId() {
-        return deskBookingsByNeighbourId;
-    }
-
-    public void setDeskBookingsByNeighbourId(Collection<DeskBooking> deskBookingsByNeighbourId) {
-        this.deskBookingsByNeighbourId = deskBookingsByNeighbourId;
-    }
 }
