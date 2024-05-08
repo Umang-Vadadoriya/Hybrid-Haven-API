@@ -1,9 +1,13 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 
+@Setter
+@Getter
 @Entity
 public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,48 +24,9 @@ public class Employee {
     @OneToMany(mappedBy = "employeeId")
     private Collection<EmployeeContact> employeeContactsByEmployeeId;
 
-//    @OneToMany(mappedBy = "employeeId")
-//    private Collection<DeskBooking> deskBookingsByEmployeeId;
-
-    public int getEmployeeId(int i) {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public Integer getEmployeeReportsTo() {
-        return employeeReportsTo;
-    }
-
-    public void setEmployeeReportsTo(Integer employeeReportsTo) {
-        this.employeeReportsTo = employeeReportsTo;
-    }
-
-    public Collection<EmployeeContact> getEmployeeContactsByEmployeeId(){
-        return employeeContactsByEmployeeId;
-    }
-
-    public void setEmployeeContactsByEmployeeId(Collection<EmployeeContact> employeesContactByEmployeeId){
-        this.employeeContactsByEmployeeId = employeesContactByEmployeeId;
-    }
-
-//    public Collection<DeskBooking> getDeskBookingsByEmployeeId() {
-//        return deskBookingsByEmployeeId;
-//    }
-//
-//    public void setDeskBookingsByEmployeeId(Collection<DeskBooking> deskBookingsByEmployeeId) {
-//        this.deskBookingsByEmployeeId = deskBookingsByEmployeeId;
-//    }
+    /*    @OneToMany(mappedBy = "employeeId")
+    private Collection<DeskBooking> deskBookingsByEmployeeId;
+    }*/
 
 
 }
