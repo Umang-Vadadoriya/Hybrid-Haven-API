@@ -5,13 +5,10 @@ import lombok.*;
 
 import java.sql.Date;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-@Setter
-@Getter
+@Data
 @Entity
 public class Events {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

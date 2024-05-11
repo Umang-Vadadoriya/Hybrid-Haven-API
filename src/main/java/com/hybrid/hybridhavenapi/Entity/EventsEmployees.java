@@ -1,11 +1,9 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 @Entity
 public class EventsEmployees {
     @Basic

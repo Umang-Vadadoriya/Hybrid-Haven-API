@@ -1,13 +1,11 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.Date;
 
-@Setter
-@Getter
+@Data
 @Entity
 public class DeskBooking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
