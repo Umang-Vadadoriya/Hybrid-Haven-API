@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,14 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
+
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+            response.setStatus(HttpStatus.OK.value());
+            return;
+        }
 
         if (requestURI.equals("/auth/code")) {
             filterChain.doFilter(request, response);
