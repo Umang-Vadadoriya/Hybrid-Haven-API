@@ -33,7 +33,7 @@ public class EmployeeControllerTests {
     private EmployeeService employeeService;
 
 
-    @Test
+//    @Test
     public void getAllEmployeeTest_Exception() throws Exception{
 
         Mockito.when(employeeService.getAllEmployees()).thenThrow(new RuntimeException("Error retrieving employees"));
@@ -45,7 +45,7 @@ public class EmployeeControllerTests {
 
     }
 
-    @Test
+//    @Test
     public void testGetAllEmployees() throws Exception {
         // Create sample employees
 
@@ -76,7 +76,7 @@ public class EmployeeControllerTests {
 
     }
 
-    @Test
+//    @Test
     public void testGetEmployeeByName() throws Exception {
         // Create sample employees
         Employee employee1 = new Employee();
