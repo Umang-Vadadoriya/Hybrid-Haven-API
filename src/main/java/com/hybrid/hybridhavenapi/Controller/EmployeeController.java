@@ -16,11 +16,6 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @GetMapping("/")
-    public String test(){
-        return "Welcome To Hybrid Haven API Version 2.2.1";
-    }
-
     @GetMapping("employees")
     public ResponseEntity<?> getAllEmployees(){
         try {
