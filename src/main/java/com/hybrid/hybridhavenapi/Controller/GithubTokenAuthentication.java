@@ -18,15 +18,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
-@RestController
 public class GithubTokenAuthentication extends OncePerRequestFilter {
-
-    @GetMapping("/auth/code")
-    public String token(@RequestParam("code") String code) {
-        return generateToken(code);
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,7 +36,7 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
             return;
         }
 
-        if (requestURI.equals("/auth/code")) {
+        if (isPublic(requestURI)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -64,7 +59,7 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
         return null;
     }
 
-    private String generateToken(String code) {
+    public String generateToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
         String client_id = System.getenv("CLIENT_ID");
         String client_secret = System.getenv("CLIENT_SECRET");
@@ -104,5 +99,9 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
             return false;
         }
         return true;
+    }
+
+    private boolean isPublic(String url){
+        return Objects.equals(url, "/auth/code") || Objects.equals(url, "/");
     }
 }
