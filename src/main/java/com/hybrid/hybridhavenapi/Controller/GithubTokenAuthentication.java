@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 @RestController
@@ -41,7 +42,7 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
             return;
         }
 
-        if (requestURI.equals("/auth/code")) {
+        if (isPublic(requestURI)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -104,5 +105,11 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
             return false;
         }
         return true;
+    }
+
+
+
+    private boolean isPublic(String url){
+        return Objects.equals(url, "/auth/code") || Objects.equals(url, "/");
     }
 }
