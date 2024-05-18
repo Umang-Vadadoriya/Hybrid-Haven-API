@@ -4,15 +4,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,14 +22,14 @@ import java.util.Objects;
 public class GithubTokenAuthentication extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
 
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-            response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "*");
             response.setStatus(HttpStatus.OK.value());
             return;
         }
@@ -73,15 +71,18 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
 
     private String getTokenFromResponse(ResponseEntity<String> response) {
         String reponseString = response.getBody();
-        if (reponseString.contains("error"))
-            return reponseString;
+        if (reponseString != null) {
 
-        String[] arr = reponseString.split("&");
+            if (reponseString.contains("error"))
+                return reponseString;
 
-        for (String i : arr) {
-            if (i.contains("access_token")) {
-                String[] j = i.split("=");
-                return j[1];
+            String[] arr = reponseString.split("&");
+
+            for (String i : arr) {
+                if (i.contains("access_token")) {
+                    String[] j = i.split("=");
+                    return j[1];
+                }
             }
         }
         return reponseString;
@@ -101,7 +102,7 @@ public class GithubTokenAuthentication extends OncePerRequestFilter {
         return true;
     }
 
-    private boolean isPublic(String url){
+    private boolean isPublic(String url) {
         return Objects.equals(url, "/auth/code") || Objects.equals(url, "/");
     }
 }
