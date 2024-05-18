@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String test(){
-        return "Welcome To Hybrid Haven API Version 2.2.2";
+        return "Welcome To Hybrid Haven API Version 2.2.3";
     }
 
     @GetMapping("/auth/code")
