@@ -1,4 +1,4 @@
-package com.hybrid.hybridhavenapi.Controller;
+package com.hybrid.hybridhavenapi.Config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

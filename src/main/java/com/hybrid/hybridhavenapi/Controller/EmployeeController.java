@@ -27,8 +27,14 @@ public class EmployeeController {
     }
 
     @GetMapping("employees/id/{employeeId}")
-    public Optional<Employee> getEmployeeById(@PathVariable Integer employeeId){
-        return employeeService.getEmployeeById(employeeId);
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer employeeId){
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        if(employee != null){
+            return new ResponseEntity<>(employee,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("employees/name/{employeeName}")
