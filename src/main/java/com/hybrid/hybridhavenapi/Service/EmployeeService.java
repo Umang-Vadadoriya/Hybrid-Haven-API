@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -18,8 +17,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(Integer employeeId) {
-        return employeeRepository.findById(employeeId);
+    public Employee getEmployeeById(Integer employeeId) {
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 
     public List<Employee> getEmployeeByName(String employeeName) {

@@ -2,7 +2,6 @@ package com.hybrid.hybridhavenapi.Controller;
 
 import com.hybrid.hybridhavenapi.Entity.DeskBooking;
 import com.hybrid.hybridhavenapi.Service.DeskBookingService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -43,9 +42,17 @@ public class DeskBookingController {
 
     @DeleteMapping("/id/{id}")
     public ResponseEntity<Void> deleteDeskBooking(@PathVariable Integer id) {
-        System.out.println("DELETE Called");
-        deskBookingService.deleteDeskBooking(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        DeskBooking deskBooking = deskBookingService.getDeskBookingById(id);
+        if (deskBooking == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                deskBookingService.deleteDeskBooking(id);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
     }
 
     @GetMapping("/date/{date}")

@@ -1,5 +1,6 @@
 package com.hybrid.hybridhavenapi.Controller;
 
+import com.hybrid.hybridhavenapi.Config.GithubTokenAuthentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +10,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String test(){
-        return "Welcome To Hybrid Haven API Version 2.2.3";
+        return "Welcome To Hybrid Haven API Version 2.2.4";
     }
 
     @GetMapping("/auth/code")
