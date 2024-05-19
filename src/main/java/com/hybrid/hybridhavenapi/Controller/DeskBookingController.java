@@ -41,7 +41,7 @@ public class DeskBookingController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deleteDeskBooking(@PathVariable Integer id) {
+    public ResponseEntity deleteDeskBooking(@PathVariable Integer id) {
         DeskBooking deskBooking = deskBookingService.getDeskBookingById(id);
         if (deskBooking == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
