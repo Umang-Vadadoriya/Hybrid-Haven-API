@@ -1,6 +1,7 @@
 package com.hybrid.hybridhavenapi.Controller;
 
 import com.hybrid.hybridhavenapi.Entity.Employee;
+import com.hybrid.hybridhavenapi.Entity.NeighbourHood;
 import com.hybrid.hybridhavenapi.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,9 +49,9 @@ public class EmployeeController {
     }
 
     @PostMapping("employees")
-    public  Boolean addEmployee(@RequestBody Employee employee)
-    {
-        return employeeService.addEmployee(employee);
+    public ResponseEntity<Employee> createNeighbourHood(@RequestBody Employee employee) {
+        Employee savedEmployee = employeeService.saveEmployee(employee);
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping("employees")
