@@ -1,6 +1,7 @@
 package com.hybrid.hybridhavenapi.Service;
 
 import com.hybrid.hybridhavenapi.Entity.Employee;
+import com.hybrid.hybridhavenapi.Entity.NeighbourHood;
 import com.hybrid.hybridhavenapi.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,9 @@ public class EmployeeService {
         return employeeRepository.findById(employee.getEmployeeReportsTo()).get();
     }
 
-    public Boolean addEmployee(Employee employee) {
-        employee = employeeRepository.save(employee);
 
-        if (employee != null)
-            return true;
-        else
-            return false;
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     public Boolean updateEmployee(Employee employee) {

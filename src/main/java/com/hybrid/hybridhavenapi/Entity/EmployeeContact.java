@@ -1,10 +1,14 @@
 package com.hybrid.hybridhavenapi.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeContact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
