@@ -32,4 +32,15 @@ public class VacationService {
     public List<Vacation> getVacationsByDate(Date date) {
         return vacationRepository.findVacationsByDate(date);
     }
+
+    public boolean isVacationExist(Vacation vacation){
+
+        Integer employeeID = vacation.getEmployeeId();
+        Date vacationStartDate = vacation.getVacationStartDate();
+        Date vacationEndDate = vacation.getVacationEndDate();
+
+        List<Vacation> vacationList = vacationRepository.findVacationByEmployeeIdAndDateRange(employeeID,vacationStartDate,vacationEndDate);
+
+        return !vacationList.isEmpty();
+    }
 }

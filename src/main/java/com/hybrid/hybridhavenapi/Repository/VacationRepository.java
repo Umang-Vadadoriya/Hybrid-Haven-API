@@ -9,5 +9,8 @@ import java.util.List;
 
 public interface VacationRepository extends JpaRepository<Vacation,Integer> {
     @Query("SELECT v FROM Vacation v WHERE :date BETWEEN v.vacationStartDate AND v.vacationEndDate")
-    public List<Vacation> findVacationsByDate(Date date);
+    List<Vacation> findVacationsByDate(Date date);
+
+    @Query("SELECT v FROM Vacation v WHERE v.employeeId = :employeeId AND (v.vacationStartDate BETWEEN :startDate AND :endDate OR v.vacationEndDate BETWEEN :startDate AND :endDate)")
+    List<Vacation> findVacationByEmployeeIdAndDateRange(Integer employeeId, Date startDate, Date endDate);
 }
