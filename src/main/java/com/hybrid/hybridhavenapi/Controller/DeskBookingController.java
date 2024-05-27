@@ -60,7 +60,7 @@ public class DeskBookingController {
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> deleteDeskBooking(@PathVariable Integer id) {
 
-        if (deskBookingService.hasDeskBooking(id))
+        if (!deskBookingService.hasDeskBooking(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseMessage("There is No Desk Booking With ID: " + id));
 
