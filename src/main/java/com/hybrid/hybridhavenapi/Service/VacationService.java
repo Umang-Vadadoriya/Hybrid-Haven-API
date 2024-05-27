@@ -33,14 +33,12 @@ public class VacationService {
         return vacationRepository.findVacationsByDate(date);
     }
 
-    public boolean isVacationExist(Vacation vacation){
-
-        Integer employeeID = vacation.getEmployeeId();
-        Date vacationStartDate = vacation.getVacationStartDate();
-        Date vacationEndDate = vacation.getVacationEndDate();
-
+    public boolean isVacationExist(Integer employeeID, Date vacationStartDate, Date vacationEndDate){
         List<Vacation> vacationList = vacationRepository.findVacationByEmployeeIdAndDateRange(employeeID,vacationStartDate,vacationEndDate);
-
+        return !vacationList.isEmpty();
+    }
+    public boolean isVacationExist(Integer employeeID, Date vacationStartDate){
+        List<Vacation> vacationList = vacationRepository.findVacationByEmployeeIdAndDateRange(employeeID,vacationStartDate,vacationStartDate);
         return !vacationList.isEmpty();
     }
 }

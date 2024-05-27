@@ -1,7 +1,9 @@
 package com.hybrid.hybridhavenapi.Controller;
 
 import com.hybrid.hybridhavenapi.Entity.DeskBooking;
+import com.hybrid.hybridhavenapi.Entity.ResponseMessage;
 import com.hybrid.hybridhavenapi.Service.DeskBookingService;
+import com.hybrid.hybridhavenapi.Service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,24 @@ import java.util.List;
 public class DeskBookingController {
     @Autowired
     private DeskBookingService deskBookingService;
+    @Autowired
+    private VacationService vacationService;
 
     @PostMapping
-    public ResponseEntity<DeskBooking> createDeskBooking(@RequestBody DeskBooking deskBooking) {
+    public ResponseEntity<?> createDeskBooking(@RequestBody DeskBooking deskBooking) {
+
+        Date deskBookingDate = deskBooking.getDeskBookingDate();
+        Integer employeeID = deskBooking.getEmployeeId();
+        boolean hasBooking = deskBookingService.hasDeskBooking(employeeID,deskBookingDate);
+        boolean hasVacation = vacationService.isVacationExist(employeeID,deskBookingDate);
+
+        if (hasBooking) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseMessage("You're Already Booked On Date: " + deskBookingDate));
+        }
+        if(hasVacation){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseMessage("You're Already Booked For Vacation On Date: " + deskBookingDate));
+        }
+
         DeskBooking savedDeskBooking = deskBookingService.saveDeskBooking(deskBooking);
         return new ResponseEntity<>(savedDeskBooking, HttpStatus.CREATED);
     }
@@ -41,18 +58,16 @@ public class DeskBookingController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity deleteDeskBooking(@PathVariable Integer id) {
-        DeskBooking deskBooking = deskBookingService.getDeskBookingById(id);
-        if (deskBooking == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            try {
-                deskBookingService.deleteDeskBooking(id);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }
+    public ResponseEntity<?> deleteDeskBooking(@PathVariable Integer id) {
+
+        if (deskBookingService.hasDeskBooking(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseMessage("There is No Desk Booking With ID: " + id));
+
+        deskBookingService.deleteDeskBooking(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseMessage(("Desk Booking Has Been Deleted With ID: " + id)));
+
     }
 
     @GetMapping("/date/{date}")

@@ -7,5 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface DeskBookingRepository extends JpaRepository<DeskBooking,Integer> {
-    public List<DeskBooking> findByDeskBookingDate(Date date);
+    List<DeskBooking> findByDeskBookingDate(Date date);
+
+    DeskBooking findDeskBookingByEmployeeIdAndDeskBookingDate(Integer employeeId,Date deskBookingDate);
 }

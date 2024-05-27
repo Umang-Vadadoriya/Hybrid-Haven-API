@@ -38,7 +38,7 @@ public class VacationController {
 
     @PostMapping
     public ResponseEntity<?> createVacation(@RequestBody @NonNull Vacation vacation) {
-        boolean Exist = vacationService.isVacationExist(vacation);
+        boolean Exist = vacationService.isVacationExist(vacation.getEmployeeId(),vacation.getVacationStartDate(),vacation.getVacationEndDate());
         if (Exist) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseMessage("Vacation record already exists."));
         } else {
