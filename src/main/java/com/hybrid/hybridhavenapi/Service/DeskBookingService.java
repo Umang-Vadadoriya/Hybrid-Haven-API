@@ -35,5 +35,15 @@ public class DeskBookingService {
         return deskBookingRepository.findByDeskBookingDate(date);
     }
 
+    public boolean hasDeskBooking(Integer id){
+        DeskBooking deskBooking = getDeskBookingById(id);
+        return deskBooking != null;
+    }
+
+    public boolean hasDeskBooking(Integer employeeId,Date deskBookingDate){
+        DeskBooking deskBooking = deskBookingRepository.findDeskBookingByEmployeeIdAndDeskBookingDate(employeeId,deskBookingDate);
+        return deskBooking != null;
+    }
+
 
 }
